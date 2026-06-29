@@ -189,3 +189,44 @@ function searchdata(value) {
   }
   document.getElementById("tbody").innerHTML = table;
 }
+//   التنبيهات الذكية
+
+const toastContainer = document.createElement("div");
+toastContainer.className = "toast-container";
+document.body.appendChild(toastContainer);
+
+function showToast(message, type = "success") {
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+  toast.innerText = message;
+
+  toastContainer.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.animation = "slideIn 0.3s ease reverse forwards";
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+// ميزة تبديل الوضع
+const themeToggle = document.getElementById("theme-toggle");
+
+const currentTheme = localStorage.getItem("theme") || "dark";
+
+document.documentElement.setAttribute("data-theme", currentTheme);
+themeToggle.innerText = currentTheme === "light" ? "☀️ Theme" : "🌙 Theme";
+
+themeToggle.onclick = function () {
+  let theme = document.documentElement.getAttribute("data-theme");
+  if (theme === "dark") {
+    document.documentElement.setAttribute("data-theme", "light");
+    localStorage.setItem("theme", "light");
+    themeToggle.innerText = "☀️ Theme";
+    showToast("Switched to Light Mode", "warning");
+  } else {
+    document.documentElement.setAttribute("data-theme", "dark");
+    localStorage.setItem("theme", "dark");
+    themeToggle.innerText = "🌙 Theme";
+    showToast("Switched to Dark Mode", "success");
+  }
+};
